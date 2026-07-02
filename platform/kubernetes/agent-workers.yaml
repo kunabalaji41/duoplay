@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-workers
+  namespace: duopoly-prod
+spec:
+  replicas: 80
+  selector:
+    matchLabels:
+      app: agent-workers
+  template:
+    metadata:
+      labels:
+        app: agent-workers
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/duopoly/agent-worker:latest
+          env:
+            - name: TASK_QUEUE
+              value: agent-workflows-prod
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+

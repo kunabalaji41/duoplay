@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-service
+  namespace: duopoly-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing-service
+  template:
+    metadata:
+      labels:
+        app: billing-service
+    spec:
+      containers:
+        - name: billing
+          image: ghcr.io/duopoly/billing-service:latest
+          env:
+            - name: BILLING_RECONCILIATION_MODE
+              value: async
+            - name: STRIPE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: billing-secrets
+                  key: stripe-api-key
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+

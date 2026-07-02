@@ -1,0 +1,18 @@
+groups:
+  - name: gateway
+    rules:
+      - alert: LLMGatewayDown
+        expr: up{job="llm-gateway"} == 0
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: LLM Gateway is down
+      - alert: LLMProviderLatencyHigh
+        expr: avg(http_request_duration_seconds{job="llm-gateway"}) > 30
+        for: 15m
+        labels:
+          severity: ticket
+        annotations:
+          summary: LLM provider latency is high
+
