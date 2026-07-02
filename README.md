@@ -63,7 +63,7 @@ python services/vector-service/search.py        # -> {'open_connections': 0} (no
 - **Queue mismatch** — `workflow-engine/worker.py`: consistent queue name.
 
 ### Delivery
-- **CI/CD** — `.github/workflows/deploy.yml`: tests gate deploys, prod restricted to `main` with an approval environment.
+- **CI/CD** — `.github/workflows/deploy.yml`: tests gate the pipeline, manifest validation runs on `main` only (was: tests ignored via `|| true`, deploys on any `feature/*`).
 - **GitOps** — `argocd/duopoly-prod.yaml`: manifest validation enabled.
 
 ## Key Tradeoffs / Remaining Risks
